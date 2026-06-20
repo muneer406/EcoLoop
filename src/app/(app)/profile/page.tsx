@@ -1,3 +1,5 @@
+import { ProfileClient } from "@/components/profile-client";
+
 export const dynamic = "force-dynamic";
 
 export default function ProfilePage() {
@@ -6,15 +8,8 @@ export default function ProfilePage() {
       <header className="h-16 border-b flex items-center px-6 shrink-0">
         <h1 className="text-lg font-semibold">Profile</h1>
       </header>
-      <div className="flex-1 p-6">
-        <div className="max-w-md mx-auto space-y-6">
-          <div className="rounded-xl border bg-card p-4">
-            <h2 className="text-sm font-medium">Account</h2>
-            <p className="text-sm text-muted-foreground mt-1">
-              Manage your profile preferences and country settings.
-            </p>
-          </div>
-        </div>
+      <div className="flex-1 overflow-y-auto p-6">
+        <ProfileClient />
       </div>
     </div>
   );
