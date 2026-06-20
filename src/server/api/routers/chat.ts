@@ -8,7 +8,7 @@ import { calculateActivity } from "@/server/services/co2";
 import {
   createLog,
   createActivities,
-  getRecentActivities,
+  getRecentLogs,
 } from "@/server/services/analytics";
 import type { CalculatedActivity } from "@/types";
 
@@ -62,7 +62,7 @@ export const chatRouter = router({
     }),
 
   getHistory: protectedProcedure.query(async ({ ctx }) => {
-    const activities = await getRecentActivities(ctx.supabase, ctx.user.id);
-    return activities;
+    const logs = await getRecentLogs(ctx.supabase, ctx.user.id);
+    return logs;
   }),
 });

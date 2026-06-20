@@ -4,4 +4,5 @@ export {
   getDailyTotal,
   getWeeklyTotals,
   getRecentActivities,
+  getRecentLogs,
 } from "./activity-service";

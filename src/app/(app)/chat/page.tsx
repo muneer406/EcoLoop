@@ -1,5 +1,6 @@
 import { ChatInput } from "@/components/chat-input";
 import { ChatHistory } from "@/components/chat-history";
+import { ChatHistoryLoader } from "@/components/chat-history-loader";
 import { ActionCard } from "@/components/action-card";
 
 export const dynamic = "force-dynamic";
@@ -12,6 +13,7 @@ export default function ChatPage() {
       </header>
 
       <div className="flex-1 overflow-y-auto">
+        <ChatHistoryLoader />
         <ChatHistory />
       </div>
 

@@ -12,14 +12,18 @@ export interface ChatEntry {
 
 interface ChatState {
   entries: ChatEntry[];
+  loaded: boolean;
   addEntry: (entry: ChatEntry) => void;
+  setEntries: (entries: ChatEntry[]) => void;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
   entries: [],
+  loaded: false,
   addEntry: (entry) =>
     set((state) => {
       const updated = [entry, ...state.entries];
       return { entries: updated.slice(0, 50) };
     }),
+  setEntries: (entries) => set({ entries, loaded: true }),
 }));

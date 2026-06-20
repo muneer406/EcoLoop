@@ -14,7 +14,20 @@ import {
 } from "recharts";
 
 export function DashboardClient() {
-  const { data, isLoading } = trpc.dashboard.getMetrics.useQuery();
+  const { data, isLoading, isError, error } = trpc.dashboard.getMetrics.useQuery();
+
+  if (isError) {
+    return (
+      <div className="flex flex-col items-center justify-center h-64 gap-4 px-4">
+        <p className="text-lg font-medium text-foreground">
+          Could not load dashboard
+        </p>
+        <p className="text-sm text-muted-foreground">
+          {error?.message ?? "Please try again later."}
+        </p>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return (

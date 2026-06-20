@@ -95,3 +95,18 @@ export async function getRecentActivities(
 
   return (data as ActivityRow[]) ?? [];
 }
+
+export async function getRecentLogs(
+  supabase: SupabaseClient,
+  userId: string,
+  limit = 20,
+) {
+  const { data: logs } = await supabase
+    .from("logs")
+    .select("*, activities(*)")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+
+  return (logs as (Log & { activities: ActivityRow[] })[]) ?? [];
+}
