@@ -1,6 +1,6 @@
 const INJECTION_PATTERNS = [
-  /ignore\s+(previous|prior|above|all)\s+(instructions?|prompts?|rules?)/i,
-  /show\s+(system|your)\s+(prompt|instructions)/i,
+  /ignore\s+(.*\s+)?(previous|prior|above|all)\s+(instructions?|prompts?|rules?)/i,
+  /show\s+(.*\s+)?(system|your)\s+(prompt|instructions)/i,
   /you\s+are\s+(now|no\s+longer|instead)\s+/i,
   /\bact\s+as\b/i,
   /\bDAN\b/i,
