@@ -46,7 +46,11 @@ export function ChatInput() {
 
   return (
     <div className="flex gap-2 items-end">
+      <label htmlFor="carbon-log-input" className="sr-only">
+        Describe your day
+      </label>
       <textarea
+        id="carbon-log-input"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -58,6 +62,7 @@ export function ChatInput() {
         onClick={handleSubmit}
         disabled={!message.trim() || sendMessage.isPending}
         size="lg"
+        aria-label={sendMessage.isPending ? "Processing your message" : "Send message"}
       >
         {sendMessage.isPending ? "..." : "Send"}
       </Button>

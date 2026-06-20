@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { TRPCProvider } from "@/lib/trpc-provider";
 import { AuthProvider } from "@/components/auth-provider";
+import { SkipLink } from "@/components/skip-link";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -31,9 +32,12 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <TRPCProvider>
-          <AuthProvider>{children}</AuthProvider>
-        </TRPCProvider>
+        <SkipLink />
+        <main id="main-content" className="flex flex-1 flex-col" role="main">
+          <TRPCProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </TRPCProvider>
+        </main>
       </body>
     </html>
   );

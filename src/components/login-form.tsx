@@ -56,6 +56,7 @@ export function LoginForm() {
         size="lg"
         onClick={handleGoogle}
         disabled={loading !== null}
+        aria-label="Sign in with Google"
       >
         {loading === "google" ? "Connecting..." : "Continue with Google"}
       </Button>
@@ -72,12 +73,17 @@ export function LoginForm() {
       </div>
 
       <form onSubmit={handleMagicLink} className="space-y-3">
+        <label htmlFor="magic-link-email" className="sr-only">
+          Email address
+        </label>
         <input
+          id="magic-link-email"
           type="email"
           placeholder="you@example.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          aria-required="true"
           className={cn(
             "w-full h-10 rounded-lg border border-border bg-background px-3 text-sm",
             "placeholder:text-muted-foreground",
