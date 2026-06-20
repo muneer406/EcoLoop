@@ -59,7 +59,7 @@ export function ChatInput() {
         onKeyDown={handleKeyDown}
         placeholder='Describe your day... (e.g. "I drove 12km, ate a burger, and used AC for 6 hours")'
         rows={2}
-        className="flex-1 resize-none rounded-xl border border-border bg-background px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+        className="flex-1 resize-none rounded-xl border border-border bg-card px-4 py-3 text-sm placeholder:text-muted-foreground transition-all duration-200 focus:border-primary/40 focus:shadow-[0_0_0_3px_rgba(110,231,249,0.15)] focus:outline-none"
       />
       <Button
         onClick={handleSubmit}

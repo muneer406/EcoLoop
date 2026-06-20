@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { trpc } from "@/lib/trpc-client";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -20,15 +21,18 @@ export function ActionCard() {
 
   if (completed) {
     return (
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
         className={cn(
-          "rounded-xl border p-5 max-w-2xl mx-auto text-center transition-colors",
+          "glass rounded-2xl p-5 max-w-2xl mx-auto text-center border",
           completed === "done"
-            ? "border-green-500/30 bg-green-500/5"
-            : "border-muted bg-muted/30",
+            ? "border-emerald-500/30"
+            : "border-border",
         )}
       >
-        <p className="text-sm font-medium">
+        <p className="text-sm font-medium text-foreground">
           {completed === "done"
             ? "Action completed! Come back tomorrow."
             : "Action skipped. New action tomorrow."}
@@ -38,19 +42,26 @@ export function ActionCard() {
             Saved {data.action.co2_saving_kg} kg CO₂
           </p>
         )}
-      </div>
+      </motion.div>
     );
   }
 
   const { action, context } = data;
 
   return (
-    <div className="rounded-xl border bg-card p-5 space-y-3 max-w-2xl mx-auto">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      className="glass rounded-2xl p-5 space-y-3 max-w-2xl mx-auto border border-primary/10"
+    >
       <div className="space-y-1">
-        <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <p className="text-xs font-medium uppercase tracking-wider text-primary">
           Daily Micro-Action
         </p>
-        <h3 className="text-base font-semibold">{action.title}</h3>
+        <h3 className="text-base font-semibold text-foreground">
+          {action.title}
+        </h3>
         <p className="text-sm text-muted-foreground">{action.description}</p>
       </div>
 
@@ -89,6 +100,6 @@ export function ActionCard() {
           Skip
         </Button>
       </div>
-    </div>
+    </motion.div>
   );
 }
