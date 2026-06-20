@@ -17,7 +17,7 @@ export interface ExtractionResult {
 }
 
 const CLAUDE_MODEL = "claude-sonnet-4-20250514";
-const GROQ_MODEL = "llama-4-scout-17b-16e-instruct";
+const GROQ_MODEL = "llama-3.3-70b-versatile";
 
 const JSON_SYSTEM_PROMPT = `${SYSTEM_PROMPT}\n\nReturn ONLY a valid JSON object. No markdown, no explanation.\nFormat: {"activities": [...], "confidence": 0.0}`;
 
