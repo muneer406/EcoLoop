@@ -213,7 +213,7 @@ supabase/
 
 ```bash
 # 1. Clone
-git clone <repo-url> && cd eco-loop
+git clone [https://github.com/Muneer320/EcoLoop.git && cd EcoLoop
 
 # 2. Install
 npm install
@@ -310,7 +310,7 @@ Every factor includes a citation stored in the `emission_factors` table.
 
 ## 📜 License
 
-MIT © EcoLoop
+[MIT](LICENSE) © EcoLoop
 
 ---
 
