@@ -1,6 +1,7 @@
 import { z } from "zod/v4";
 import { TRPCError } from "@trpc/server";
 import { protectedProcedure, router } from "../trpc";
+import { rateLimit } from "../rate-limit";
 import { LogInputSchema } from "@/server/validators";
 import { extractActivities } from "@/server/services/ai";
 import { calculateActivity } from "@/server/services/co2";
@@ -15,6 +16,8 @@ export const chatRouter = router({
   sendMessage: protectedProcedure
     .input(LogInputSchema)
     .mutation(async ({ ctx, input }) => {
+      rateLimit(ctx.user.id);
+
       const startTime = Date.now();
 
       // Step 1: AI Extraction
