@@ -26,13 +26,16 @@ export function ChatInput() {
         totalCo2Kg: result.totalCo2Kg,
         timestamp: new Date(),
       });
-    } catch {
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : "Something went wrong.";
       addEntry({
-        id: "error",
+        id: `error-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
         message: text,
         activities: [],
         totalCo2Kg: 0,
         timestamp: new Date(),
+        error: errorMessage,
       });
     }
   };

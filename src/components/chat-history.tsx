@@ -48,6 +48,12 @@ export function ChatHistory() {
             </span>
           </div>
 
+          {entry.error && (
+            <p className="text-sm text-destructive bg-destructive/10 rounded-lg px-3 py-2" role="alert">
+              {entry.error}
+            </p>
+          )}
+
           {entry.activities.length > 0 && (
             <div className="space-y-1">
               {entry.activities.map((a, i) => (

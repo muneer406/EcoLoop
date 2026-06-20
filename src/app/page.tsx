@@ -1,11 +1,22 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   Cloud,
   Zap,
   TrendingDown,
 } from "lucide-react";
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ code?: string }>;
+}) {
+  const params = await searchParams;
+
+  // Handle OAuth code on root (Vercel redirect mismatch)
+  if (params.code) {
+    redirect(`/auth/callback?code=${params.code}`);
+  }
   return (
     <div className="flex flex-col">
       {/* Hero */}

@@ -1,16 +1,48 @@
 "use client";
 
+import { useState } from "react";
 import { trpc } from "@/lib/trpc-client";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function ActionCard() {
   const { data, isLoading, refetch } = trpc.habits.getAction.useQuery();
+  const [completed, setCompleted] = useState<string | null>(null); // "done" | "skipped"
+
   const completeMutation = trpc.habits.complete.useMutation({
-    onSuccess: () => refetch(),
+    onSuccess: (_, vars) => {
+      setCompleted(vars.status);
+      setTimeout(() => {
+        setCompleted(null);
+        refetch();
+      }, 1500);
+    },
   });
 
   if (isLoading) return null;
   if (!data?.action) return null;
+
+  if (completed) {
+    return (
+      <div
+        className={cn(
+          "rounded-xl border p-5 max-w-2xl mx-auto text-center transition-colors",
+          completed === "done"
+            ? "border-green-500/30 bg-green-500/5"
+            : "border-muted bg-muted/30",
+        )}
+      >
+        <p className="text-sm font-medium">
+          {completed === "done" ? "Action completed!" : "Action skipped."}
+        </p>
+        {completed === "done" && (
+          <p className="text-xs text-muted-foreground mt-1">
+            Saved {data.action.co2_saving_kg} kg CO₂
+          </p>
+        )}
+      </div>
+    );
+  }
 
   const { action, context } = data;
 

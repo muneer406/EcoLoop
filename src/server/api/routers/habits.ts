@@ -8,7 +8,7 @@ export const habitsRouter = router({
   getAction: protectedProcedure.query(async ({ ctx }) => {
     const today = new Date().toISOString().slice(0, 10);
     const dailyTotal = await getDailyTotal(ctx.supabase, ctx.user.id, today);
-    const action = await selectAction(ctx.supabase, dailyTotal);
+    const action = await selectAction(ctx.supabase, ctx.user.id, dailyTotal);
 
     if (!action) {
       return null;

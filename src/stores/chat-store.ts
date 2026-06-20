@@ -7,6 +7,7 @@ export interface ChatEntry {
   activities: CalculatedActivity[];
   totalCo2Kg: number;
   timestamp: Date;
+  error?: string;
 }
 
 interface ChatState {

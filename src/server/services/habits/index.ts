@@ -10,8 +10,22 @@ const DIFFICULTY_ORDER: Record<string, number> = {
 
 export async function selectAction(
   supabase: SupabaseClient,
+  userId: string,
   dailyTotal: DailyTotal | null,
 ): Promise<MicroAction | null> {
+  const today = new Date().toISOString().slice(0, 10);
+
+  // Get actions already completed/skipped today
+  const { data: usedActions } = await supabase
+    .from("user_actions")
+    .select("action_id")
+    .eq("user_id", userId)
+    .eq("action_date", today);
+
+  const usedIds = new Set(
+    ((usedActions ?? []) as { action_id: string }[]).map((a) => a.action_id),
+  );
+
   // Determine biggest contributor category
   const biggestCategory = getBiggestCategory(dailyTotal);
 
@@ -23,7 +37,10 @@ export async function selectAction(
     .eq("active", true)
     .order("difficulty", { ascending: true });
 
-  const available = (actions as MicroAction[]) ?? [];
+  const allActions = (actions as MicroAction[]) ?? [];
+
+  // Exclude actions already completed or skipped today
+  const available = allActions.filter((a) => !usedIds.has(a.id));
 
   if (available.length === 0) {
     // Fallback: any active action
