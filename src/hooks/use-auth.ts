@@ -1,14 +1,23 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/auth-store";
 import { createBrowserSupabaseClient } from "@/server/db/supabase-browser";
+import type { SupabaseClient } from "@supabase/supabase-js";
+
+function useSupabase() {
+  const ref = useRef<SupabaseClient | null>(null);
+  if (!ref.current) {
+    ref.current = createBrowserSupabaseClient();
+  }
+  return ref.current;
+}
 
 export function useAuth() {
   const { user, isLoading, isAuthenticated } = useAuthStore();
   const router = useRouter();
-  const supabase = createBrowserSupabaseClient();
+  const supabase = useSupabase();
 
   const signInWithGoogle = useCallback(async () => {
     await supabase.auth.signInWithOAuth({
@@ -34,8 +43,8 @@ export function useAuth() {
 
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
+    useAuthStore.getState().setUser(null);
     router.push("/");
-    router.refresh();
   }, [supabase, router]);
 
   return {

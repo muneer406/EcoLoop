@@ -21,7 +21,7 @@
 /build
 
 # Docs
-Docs/
+Docs/*
 
 # misc
 .DS_Store
