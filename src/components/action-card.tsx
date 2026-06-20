@@ -7,15 +7,11 @@ import { cn } from "@/lib/utils";
 
 export function ActionCard() {
   const { data, isLoading, refetch } = trpc.habits.getAction.useQuery();
-  const [completed, setCompleted] = useState<string | null>(null); // "done" | "skipped"
+  const [completed, setCompleted] = useState<string | null>(null);
 
   const completeMutation = trpc.habits.complete.useMutation({
     onSuccess: (_, vars) => {
       setCompleted(vars.status);
-      setTimeout(() => {
-        setCompleted(null);
-        refetch();
-      }, 1500);
     },
   });
 
@@ -33,7 +29,9 @@ export function ActionCard() {
         )}
       >
         <p className="text-sm font-medium">
-          {completed === "done" ? "Action completed!" : "Action skipped."}
+          {completed === "done"
+            ? "Action completed! Come back tomorrow."
+            : "Action skipped. New action tomorrow."}
         </p>
         {completed === "done" && (
           <p className="text-xs text-muted-foreground mt-1">
@@ -75,7 +73,7 @@ export function ActionCard() {
           }
           disabled={completeMutation.isPending}
         >
-          {completeMutation.isPending ? "..." : "Done"}
+          {completeMutation.isPending ? "Saving..." : "Done"}
         </Button>
         <Button
           size="sm"
