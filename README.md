@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind 4" />
   <img src="https://img.shields.io/badge/Three.js-WebGL-black?logo=threedotjs&logoColor=white" alt="Three.js" />
   <img src="https://img.shields.io/badge/Zod-Validation-3E67B1?logo=zod&logoColor=white" alt="Zod" />
-  <img src="https://img.shields.io/badge/Anthropic-Claude-5436DA" alt="Anthropic Claude" />
+  <img src="https://img.shields.io/badge/AI-Claude_|_Groq-blueviolet" alt="Claude or Groq" />
   <img src="https://img.shields.io/badge/WCAG-2.2_AA-5A5A5A?logo=w3c&logoColor=white" alt="WCAG 2.2 AA" />
   <img src="https://img.shields.io/badge/License-MIT-yellow" alt="MIT License" />
 </p>
@@ -98,7 +98,7 @@ graph TB
 | **3D** | React Three Fiber + Drei | Carbon Field visualization |
 | **Charts** | Recharts | Analytics visualizations |
 | **State** | Zustand + React Query | Client + server state |
-| **AI** | Vercel AI SDK + Claude | Activity extraction |
+| **AI** | Vercel AI SDK | Claude (paid) → Groq (free fallback) |
 | **Rate Limit** | In-memory | 20 req/hr per user |
 | **Testing** | Vitest | Unit + integration tests |
 
@@ -108,7 +108,7 @@ graph TB
 
 | Feature | Status | Description |
 |---------|--------|-------------|
-| **AI Activity Extraction** | ✓ | Natural language → structured activities via Claude |
+| **AI Activity Extraction** | ✓ | Natural language → structured activities (Claude or free Groq) |
 | **CO₂ Calculation Engine** | ✓ | Deterministic, source-cited emission factors |
 | **Personal Dashboard** | ✓ | Weekly trends, category breakdown, comparisons |
 | **Carbon Field** | ✓ | Three.js particle visualization of impact |
@@ -220,7 +220,8 @@ npm install
 
 # 3. Configure environment
 cp .env.example .env.local
-# Fill in Supabase URL, Supabase Anon Key, and Anthropic API Key
+# Fill in Supabase URL, Supabase Anon Key
+# Set either ANTHROPIC_API_KEY (Claude) or GROQ_API_KEY (free) — or both
 
 # 4. Set up Supabase
 # Run migrations in supabase/migrations/ against your Supabase project
@@ -231,6 +232,17 @@ npm run dev
 # 6. Open
 open http://localhost:3000
 ```
+
+### AI Provider
+
+EcoLoop supports two AI providers with automatic fallback:
+
+| Priority | Provider | Model | Key Required | Cost |
+|----------|----------|-------|:---:|------|
+| 1st | Anthropic Claude | `claude-sonnet-4-20250514` | `ANTHROPIC_API_KEY` | Paid |
+| 2nd | Groq | `llama-3.3-70b-versatile` | `GROQ_API_KEY` | **Free** |
+
+If `ANTHROPIC_API_KEY` is set, Claude is used. Otherwise, Groq is used automatically. Set either key — or both to have a paid primary and a free fallback.
 
 ---
 

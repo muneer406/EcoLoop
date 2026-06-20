@@ -1,15 +1,26 @@
 import { generateObject } from "ai";
 import { anthropic } from "@ai-sdk/anthropic";
+import { groq } from "@ai-sdk/groq";
 import { AIResponseSchema } from "@/server/validators";
 import { SYSTEM_PROMPT } from "./system-prompt";
 import { detectInjection, sanitizeInput } from "./defense";
 import type { AIActivityResponse } from "@/types";
+
+export type AIProvider = "claude" | "groq";
 
 export interface ExtractionResult {
   success: boolean;
   data?: AIActivityResponse;
   error?: string;
   retried: boolean;
+  provider?: AIProvider;
+}
+
+const CLAUDE_MODEL = "claude-sonnet-4-20250514";
+const GROQ_MODEL = "llama-3.3-70b-versatile";
+
+function getProviderName(): AIProvider {
+  return process.env.ANTHROPIC_API_KEY ? "claude" : "groq";
 }
 
 export async function extractActivities(
@@ -44,9 +55,14 @@ export async function extractActivities(
 }
 
 async function callAI(message: string): Promise<ExtractionResult> {
+  const useClaude = Boolean(process.env.ANTHROPIC_API_KEY);
+  const provider: AIProvider = useClaude ? "claude" : "groq";
+
   try {
     const { object } = await generateObject({
-      model: anthropic("claude-sonnet-4-20250514"),
+      model: useClaude
+        ? anthropic(CLAUDE_MODEL)
+        : groq(GROQ_MODEL),
       schema: AIResponseSchema,
       system: SYSTEM_PROMPT,
       prompt: message,
@@ -60,6 +76,7 @@ async function callAI(message: string): Promise<ExtractionResult> {
         success: false,
         error: "LOW_CONFIDENCE",
         retried: false,
+        provider,
       };
     }
 
@@ -67,12 +84,14 @@ async function callAI(message: string): Promise<ExtractionResult> {
       success: true,
       data: result as AIActivityResponse,
       retried: false,
+      provider,
     };
   } catch (error) {
     return {
       success: false,
       error: error instanceof Error ? error.message : "AI_PARSE_FAILURE",
       retried: false,
+      provider,
     };
   }
 }
