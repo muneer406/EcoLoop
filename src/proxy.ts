@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/server/db/supabase-middleware";
 
-const protectedRoutes = ["/chat", "/dashboard", "/profile", "/settings"];
+const protectedRoutes = ["/chat", "/dashboard", "/profile", "/settings", "/onboarding"];
 
 const publicRoutes = ["/", "/login", "/auth/callback", "/api"];
 
