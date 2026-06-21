@@ -14,7 +14,7 @@ export default async function Home({
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col overflow-y-auto">
       {/* Hero */}
       <section className="min-h-[100dvh] flex flex-col items-center justify-center px-4 relative">
         <div className="absolute inset-0 bg-gradient-to-b from-cyan-950/20 via-background to-background -z-10" />

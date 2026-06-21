@@ -8,9 +8,9 @@ const publicRoutes = ["/", "/login", "/auth/callback", "/api"];
 export async function proxy(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
-  // Catch OAuth code on any path (Vercel redirect mismatch)
+  // Catch OAuth code on any path except /auth/callback (Vercel redirect mismatch)
   const code = searchParams.get("code");
-  if (code) {
+  if (code && pathname !== "/auth/callback") {
     const url = new URL("/auth/callback", request.url);
     url.searchParams.set("code", code);
     return NextResponse.redirect(url);

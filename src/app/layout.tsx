@@ -31,9 +31,9 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${jetbrainsMono.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground">
+      <body className="h-dvh flex flex-col bg-background text-foreground overflow-hidden">
         <SkipLink />
-        <main id="main-content" className="flex flex-1 flex-col" role="main">
+        <main id="main-content" className="flex flex-1 flex-col overflow-hidden" role="main">
           <TRPCProvider>
             <AuthProvider>{children}</AuthProvider>
           </TRPCProvider>
