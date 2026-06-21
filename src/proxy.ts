@@ -6,7 +6,15 @@ const protectedRoutes = ["/chat", "/dashboard", "/profile", "/settings", "/onboa
 const publicRoutes = ["/", "/login", "/auth/callback", "/api"];
 
 export async function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
+
+  // Catch OAuth code on any path (Vercel redirect mismatch)
+  const code = searchParams.get("code");
+  if (code) {
+    const url = new URL("/auth/callback", request.url);
+    url.searchParams.set("code", code);
+    return NextResponse.redirect(url);
+  }
 
   const isPublic = publicRoutes.some(
     (route) => pathname === route || pathname.startsWith(`${route}/`),
