@@ -1,7 +1,7 @@
 import { z } from "zod/v4";
 import { protectedProcedure, router } from "../trpc";
 import { CompleteActionSchema } from "@/server/validators";
-import { selectAction, completeAction, updateStreak } from "@/server/services/habits";
+import { selectAction, completeAction } from "@/server/services/habits";
 import { getDailyTotal } from "@/server/services/analytics";
 
 export const habitsRouter = router({
@@ -57,9 +57,6 @@ export const habitsRouter = router({
         input.status,
         input.status === "done" ? co2Saved : 0,
       );
-
-      // Update streak
-      await updateStreak(ctx.supabase, ctx.user.id);
 
       return { success: true };
     }),

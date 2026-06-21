@@ -154,6 +154,15 @@ export async function completeAction(
     action_date: today,
   });
 
+  // Update daily_totals with saved CO₂ (only if row already exists)
+  if (status === "done" && co2Saved > 0) {
+    await supabase
+      .from("daily_totals")
+      .update({ co2_saved_kg: co2Saved, updated_at: new Date().toISOString() })
+      .eq("user_id", userId)
+      .eq("date", today);
+  }
+
   // Update streak after action completion
   await updateStreak(supabase, userId);
 }

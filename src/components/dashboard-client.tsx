@@ -85,12 +85,22 @@ export function DashboardClient() {
           <p className="text-2xl font-bold text-foreground">
             {data.streak?.current_streak ?? 0} days
           </p>
+          {(data.streak?.current_streak ?? 0) === 0 && (
+            <p className="text-[10px] text-muted-foreground leading-tight">
+              Log activities &amp; complete a daily action to start your streak
+            </p>
+          )}
         </MotionCard>
         <MotionCard className="card-eco p-5 space-y-1" whileHover={{ y: -4 }}>
           <p className="text-xs text-muted-foreground">CO₂ Saved</p>
           <p className="text-2xl font-bold text-emerald-400">
             {data.co2Saved.toFixed(1)} kg
           </p>
+          {data.co2Saved === 0 && data.weeklyTotals.length > 0 && (
+            <p className="text-[10px] text-muted-foreground leading-tight">
+              Needs 7 days of history for baseline comparison
+            </p>
+          )}
         </MotionCard>
         <MotionCard className="card-eco p-5 space-y-1" whileHover={{ y: -4 }}>
           <p className="text-xs text-muted-foreground">Forecast</p>
